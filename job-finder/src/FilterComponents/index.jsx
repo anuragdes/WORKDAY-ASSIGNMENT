@@ -46,7 +46,7 @@ const payValues = [
   { label: 100, value: 100 },
 ];
 
-export default function FilterComponents({handleChange}) {
+export default function FilterComponents({handleChange, filters}) {
 
   return (
     <div>
@@ -55,6 +55,7 @@ export default function FilterComponents({handleChange}) {
         values={minExpValues}
         handleChange={handleChange}
         keyName={"minExp"}
+        selectedValue={filters.minExp}
       />
 
       <CommonDropdownFilter
@@ -62,6 +63,7 @@ export default function FilterComponents({handleChange}) {
         values={remoteValues}
         handleChange={handleChange}
         keyName={"location"}
+        selectedValue={filters.location}
       />
 
       {/* <CommonDropdownFilter
@@ -76,6 +78,7 @@ export default function FilterComponents({handleChange}) {
         values={RoleValues}
         handleChange={handleChange}
         keyName={"jobRole"}
+        selectedValue={filters.jobRole}
       />
 
       <CommonDropdownFilter
@@ -83,6 +86,7 @@ export default function FilterComponents({handleChange}) {
         values={payValues}
         handleChange={handleChange}
         keyName={"minJdSalary"}
+        selectedValue={filters.minJdSalary}
       />
     </div>
   );

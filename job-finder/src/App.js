@@ -1,94 +1,129 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import JobSection from "./Components/JobSection";
 import FilterComponents from "./FilterComponents/index.jsx";
-
-const data = [
-  {
-    jdUid: "cfff35ac-053c-11ef-83d3-06301d0a7178-92010",
-    jdLink: "https://weekday.works",
-    jobDetailsFromCompany:
-      "This is a sample job and you must have displayed it to understand that its not just some random lorem ipsum text but something which was manually written. Oh well, if random text is what you were looking for then here it is: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages and now in this assignment.",
-    maxJdSalary: 61,
-    minJdSalary: null,
-    salaryCurrencyCode: "USD",
-    location: "delhi ncr",
-    minExp: 3,
-    maxExp: 6,
-    jobRole: "frontend",
-    companyName: "Dropbox",
-    logoUrl: "https://logo.clearbit.com/dropbox.com",
-  },
-  {
-    jdUid: "cfff35ba-053c-11ef-83d3-06301d0a7178-92012",
-    jdLink: "https://weekday.works",
-    jobDetailsFromCompany:
-      "This is a sample job and you must have displayed it to understand that its not just some random lorem ipsum text but something which was manually written. Oh well, if random text is what you were looking for then here it is: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages and now in this assignment.",
-    maxJdSalary: 103,
-    minJdSalary: 100,
-    salaryCurrencyCode: "USD",
-    location: "mumbai",
-    minExp: null,
-    maxExp: null,
-    jobRole: "ios",
-    companyName: "LG",
-    logoUrl: "https://logo.clearbit.com/lg.com",
-  },
-  {
-    jdUid: "cfff35d4-053c-11ef-83d3-06301d0a7178-92016",
-    jdLink: "https://weekday.works",
-    jobDetailsFromCompany:
-      "This is a sample job and you must have displayed it to understand that its not just some random lorem ipsum text but something which was manually written. Oh well, if random text is what you were looking for then here it is: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages and now in this assignment.",
-    maxJdSalary: 28,
-    minJdSalary: 26,
-    salaryCurrencyCode: "USD",
-    location: "remote",
-    minExp: 2,
-    maxExp: 11,
-    jobRole: "android",
-    companyName: "Sony",
-    logoUrl: "https://logo.clearbit.com/sony.com",
-  },
-  {
-    jdUid: "cfff35e1-053c-11ef-83d3-06301d0a7178-92018",
-    jdLink: "https://weekday.works",
-    jobDetailsFromCompany:
-      "This is a sample job and you must have displayed it to understand that its not just some random lorem ipsum text but something which was manually written. Oh well, if random text is what you were looking for then here it is: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages and now in this assignment.",
-    maxJdSalary: 45,
-    minJdSalary: 35,
-    salaryCurrencyCode: "USD",
-    location: "chennai",
-    minExp: 5,
-    maxExp: 6,
-    jobRole: "tech lead",
-    companyName: "Adobe Systems",
-    logoUrl: "https://logo.clearbit.com/adobe.com",
-  },
-  {
-    jdUid: "cfff35ed-053c-11ef-83d3-06301d0a7178-92020",
-    jdLink: "https://weekday.works",
-    jobDetailsFromCompany:
-      "This is a sample job and you must have displayed it to understand that its not just some random lorem ipsum text but something which was manually written. Oh well, if random text is what you were looking for then here it is: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages and now in this assignment.",
-    maxJdSalary: 48,
-    minJdSalary: 26,
-    salaryCurrencyCode: "USD",
-    location: "delhi ncr",
-    minExp: 1,
-    maxExp: 8,
-    jobRole: "frontend",
-    companyName: "HP",
-    logoUrl: "https://logo.clearbit.com/hp.com",
-  },
-];
+import axios from "axios";
+import Spinner from "./Components/Spinner/index.jsx";
 
 function App() {
+  const [filters, setFilters] = useState({
+    minExp: "",
+    location: "",
+    jobRole: "",
+    minJdSalary: "",
+  });
+  const [data, setData] = useState({ jdList: [], totalCount: 0 });
+  const [filteredData, setFilteredData] = useState(data.jdList);
+  const [limit, setLimit] = useState(10);
+  const [isLoading, setIsLoading] = useState(false);
+
   function handleChange(e) {
-    console.log("E", e);
+    setFilters((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
   }
+
+  useEffect(() => {
+    const updatedData = [...filteredData].filter((el) => {
+      let selectThisJob = true;
+
+      if (
+        filters.jobRole &&
+        (el.jobRole.toLowerCase() !== filters.jobRole.toLowerCase() ||
+          !el.jobRole)
+      ) {
+        selectThisJob = false;
+      }
+
+      if (
+        filters.location &&
+        (el.location.toLowerCase() !== filters.location.toLowerCase() ||
+          !el.location)
+      ) {
+        selectThisJob = false;
+      }
+
+      if (filters.minExp && (el.minExp < filters.minExp || !el.minExp)) {
+        selectThisJob = false;
+      }
+
+      if (
+        filters.minJdSalary &&
+        (el.minJdSalary < filters.minJdSalary || !el.minJdSalary)
+      ) {
+        selectThisJob = false;
+      }
+
+      if (selectThisJob) {
+        return el;
+      }
+    });
+
+    console.log("DATA", data, filters);
+    setData(updatedData);
+  }, [filters]);
+
+  async function fetchData() {
+    try {
+
+      if((data.totalCount < filteredData.length && data.jdList.length !== 0 && filteredData.length !== 0) || isLoading) {
+        return;
+      }
+
+      setIsLoading(prev => true);
+
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      const body = JSON.stringify({
+        limit,
+        offset: filteredData.length ? filteredData.length : 0,
+      });
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body,
+      };
+
+      const response = await axios.post(
+        "https://api.weekday.technology/adhoc/getSampleJdJSON",
+        requestOptions
+      );
+      setData(response.data);
+      console.log("response", response, response.data?.jdList);
+      setFilteredData((prev) => [...prev, ...response?.data?.jdList]);
+      setIsLoading(prev => false);
+    } catch (err) {
+      setIsLoading(prev => false);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollTop, clientHeight, scrollHeight } =
+        document.documentElement;
+      if (scrollTop + clientHeight >= scrollHeight - 20) {
+        fetchData();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [fetchData]);
+
+  console.log("DATA", data, filteredData);
 
   return (
     <div>
-      <FilterComponents handleChange={handleChange} />
-      <JobSection data={data} />
+      <FilterComponents handleChange={handleChange} filters={filters} />
+      {filteredData?.length > 0 && <JobSection data={filteredData ?? []} />}
+      {isLoading && <Spinner />}
     </div>
   );
 }

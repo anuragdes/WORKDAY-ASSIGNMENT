@@ -3,8 +3,8 @@
     width: 24px;
     aspect-ratio: 1;
     border-radius: 50%;
-    border: 6px solid lightblue;
-    border-right-color: orange;
+    border: 6px solid #55efc36a;
+    border-right-color: #55EFC4;
     animation: l2 1s infinite linear;
     margin: 30px auto;
   }

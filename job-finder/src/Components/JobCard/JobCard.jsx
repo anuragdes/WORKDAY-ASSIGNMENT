@@ -48,7 +48,11 @@ function JobCard({
         ⚡ Easy Apply
       </button>
       <button className={`${style.applyRefferalBtn}`}>
-        ⚡ Unlock referal asks
+        <div className={`${style.flex}`}>
+          <img className={`${style.userlogo}`} src="/user.png"></img>
+          <img className={`${style.userlogo} ${style.userLogo2}`} src="/user.png"></img>
+          
+          </div>  Unlock referal asks
       </button>
     </div>
   );

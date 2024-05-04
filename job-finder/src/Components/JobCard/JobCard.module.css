@@ -1,7 +1,7 @@
 .parentContainer {
     border-radius: 20px;
     padding: 16px;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px 0px !important;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px 0px;
 }
 
 .parentContainer:hover {
@@ -58,4 +58,23 @@
     cursor: pointer;
     color: white;
     margin-top: 12px;
+    display: flex;
+    gap: 6px;
+}
+
+.flex {
+    display: flex;
+}
+
+.userlogo {
+    width: 14px;
+    height:14px;
+    border-radius: 100%;
+    object-fit: contain;
+    border: 2px solid white;
+    box-shadow: rgb(0, 0, 0) 0px 1px 4px 0px;
+}
+
+.userLogo2 {
+    transform: translateX(-6px);
 }

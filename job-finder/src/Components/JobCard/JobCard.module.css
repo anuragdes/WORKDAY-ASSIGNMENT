@@ -1,0 +1,14 @@
+.parentContainer {
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+.jobRole {
+    text-transform: capitalize;
+}
+
+.companyImageContainer{
+    display: flex;
+
+}
+

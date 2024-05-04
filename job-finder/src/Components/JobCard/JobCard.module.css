@@ -1,14 +1,61 @@
 .parentContainer {
-    border: 1px solid black;
     border-radius: 20px;
+    padding: 16px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px 0px !important;
 }
 
-.jobRole {
-    text-transform: capitalize;
+.parentContainer:hover {
+    transition: all 0.2s ease-in-out;
+    transform: scale(1.01);
 }
 
 .companyImageContainer{
     display: flex;
-
+    align-items: center;
+    gap: 12px;
 }
 
+.logoUrl{
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.titleCase{
+    text-transform: capitalize;
+}
+
+.text14{
+    font-size: 14px; 
+}
+
+.text12{
+    font-size: 12px; 
+}
+
+.fw600 {
+    font-weight: 600;
+}
+
+.applyBtn {
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 8px;
+    background-color: #55EFC4;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+.applyRefferalBtn{
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 8px;
+    background-color: #3b1fb7;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+    margin-top: 12px;
+}

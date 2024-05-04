@@ -6,7 +6,7 @@ const JobSection = ({ data }) => {
   return (
     <div className={`${style.jobSectionContainer}`}>
       {data.map((el, idx) => (
-        <JobCard jobDetails={el} key={el.jdUid} />
+        <JobCard {...el} key={el.jdUid} />
       ))}
     </div>
   );

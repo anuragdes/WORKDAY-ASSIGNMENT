@@ -71,12 +71,19 @@ function App() {
         selectThisJob = false;
       }
 
+      if (
+        filters.companyName.trim() &&
+        !(el.companyName.toLowerCase().includes(filters.companyName.trim()))
+      ) {
+        selectThisJob = false;
+      }
+
       if (selectThisJob) {
         return el;
       }
     });
 
-    console.log("DATA", updatedData, filters);
+    
     setFilteredData(updatedData);
   }
 
@@ -116,7 +123,7 @@ function App() {
         requestOptions
       );
       setData(response.data);
-      console.log("response", response, response.data?.jdList);
+     
       setLoadedData((prev) => [...prev, ...response?.data?.jdList]);
       setIsLoading((prev) => false);
     } catch (err) {
@@ -143,7 +150,7 @@ function App() {
     };
   }, [fetchData]);
 
-  console.log("DATA", filters, filteredData);
+
 
   return (
     <div>

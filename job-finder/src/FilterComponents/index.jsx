@@ -86,7 +86,7 @@ export default function FilterComponents({handleChange, filters}) {
         selectedValue={filters.minJdSalary}
       />
 
-      <input type="text" name="companyName" className={`${style.inputBox}`} placeholder="Company Name" />
+      <input type="text" name="companyName" className={`${style.inputBox}`} placeholder="Company Name" value={filters.companyName} onChange={handleChange} />
     </div>
   );
 }

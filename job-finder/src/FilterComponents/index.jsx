@@ -1,9 +1,6 @@
 import * as React from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import CommonDropdownFilter from "./common-dropdown";
+import style from "./index.module.css";
 
 const minExpValues = [
   { label: 1, value: 1 },
@@ -49,7 +46,7 @@ const payValues = [
 export default function FilterComponents({handleChange, filters}) {
 
   return (
-    <div>
+    <div className={`${style.parentContainer}`}>
       <CommonDropdownFilter
         displayKey={"Min Exp"}
         values={minExpValues}
@@ -88,6 +85,8 @@ export default function FilterComponents({handleChange, filters}) {
         keyName={"minJdSalary"}
         selectedValue={filters.minJdSalary}
       />
+
+      <input type="text" name="companyName" className={`${style.inputBox}`} placeholder="Company Name" />
     </div>
   );
 }

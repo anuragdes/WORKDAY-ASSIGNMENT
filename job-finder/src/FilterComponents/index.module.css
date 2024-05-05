@@ -1,0 +1,14 @@
+.parentContainer {
+    display: flex;
+    align-items: center;
+    padding: 24px;
+    gap: 20px;
+}
+
+.inputBox {
+    padding: 10px 6px;
+    border-radius: 8px;
+    height: 36px;
+    font-size: 18px;
+}
+
